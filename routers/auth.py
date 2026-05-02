@@ -129,7 +129,8 @@ async def google_callback(code: str):
         user_id = user["id"]
         notify_admin_new_registration(name, email, "free")
 
-    profile = db.table("profiles").select("id").eq("user_id", user_id).execute()
+    # Fixed: profiles table uses "id" not "user_id"
+    profile = db.table("profiles").select("id").eq("id", user_id).execute()
     has_profile = bool(profile.data)
     needs_password = user.get("auth_provider") == "google" and not user.get("password_hash")
 
