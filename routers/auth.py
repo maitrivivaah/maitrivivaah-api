@@ -78,7 +78,7 @@ async def login(body: LoginRequest):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
     # Check if profile exists
-    profile = db.table("profiles").select("id").eq("user_id", user["id"]).execute()
+    profile = db.table("profiles").select("id").eq("id", user["id"]).execute()
     has_profile = bool(profile.data)
 
     access_token  = create_access_token(user["id"], user["email"], user.get("role", "user"))
